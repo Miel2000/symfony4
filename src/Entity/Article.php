@@ -3,6 +3,9 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Exception\InvalidArgumentException;
+
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ArticleRepository")
@@ -18,16 +21,21 @@ class Article
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min=5, max=20, minMessage="Votre titre est trop court chef")
      */
     private $title;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\Length(min=10, max=255, minMessage="Votre message est trop court chef")
      */
     private $content;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Url(
+     *      message = "Verifiez l'adresse Mr Robot"
+     * )
      */
     private $image;
 
