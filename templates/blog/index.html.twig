@@ -3,12 +3,17 @@
 {% block title %}Hello BlogController!{% endblock %}
 
 {% block body %}
+<br>
+ <div class="navigation pagination">
+    {{ knp_pagination_render(articles) }}
+</div>
+
 <section class="articles">
 
 {% for article in articles %}
-    <article>
+    <article class="article_container">
         <h2> {{ article.title }} </h2>
-        <div class="metadata"> Ecrit le {{ article.createdAt | date('d/m/Y') }}  à {{ article.createdAt | date('H:i') }} Dans la catégorie Politique </div>
+        <div class="metadata"> Ecrit le {{ article.createdAt | date('d/m/Y') }}  à  {{ article.createdAt | date('H:i') }} Dans la catégorie<strong> {{ article.category.title }} </strong> </div>
         <div class="content">
             <img src="{{ article.image }} " alt="">
            {{ article.content | raw }} 
@@ -16,7 +21,6 @@
         </div>
     </article>
 {% endfor %}
-
 
 </section>
 

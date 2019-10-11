@@ -2,7 +2,8 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -18,15 +19,25 @@ use App\Form\ArticleType;
 
 
 
-class BlogController extends AbstractController
+
+
+class BlogController extends Controller
 {
     /**
      * @Route("/blog", name="blog")
      */
-    public function index(ArticleRepository $repo)
+    public function index(ArticleRepository $repo, Request $request)
     {
        
-        $articles = $repo->findAll();
+        $allArticles = $repo->findAll();
+        $articles = $this->get('knp_paginator')->paginate(
+            // Doctrine Query, not results
+            $allArticles,
+            // Define the page parameter
+            $request->query->getInt('page', 1),
+            // Items per page
+            5
+        );
 
         return $this->render('blog/index.html.twig', [
             'controller_name' => 'BlogController',

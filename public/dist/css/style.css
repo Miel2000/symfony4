@@ -1,0 +1,14 @@
+.page-link {
+    position: relative;
+    display: block;
+    padding: 0.5rem 0.75rem;
+    margin-left: 0;
+    line-height: 1.25;
+    color: #fff;
+    background-color: #ac70a6;
+    border: 0 solid transparent;
+}
+
+body {
+    background-color:red;
+}
