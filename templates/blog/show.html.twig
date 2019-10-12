@@ -1,23 +1,26 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-
+<br>
    <article>
         <h2> {{ article.title }} </h2>
-        <div class="metadata"> Ecrit le {{ article.createdAt | date('d/m/Y') }} à {{ article.createdAt | date('H:i') }} dans la catégorie {{ article.category.title }} </div>
+        <div class="metadata"> Ecrit le {{ article.createdAt | date('d/m/Y') }} à {{ article.createdAt | date('H:i') }} dans la catégorie <em> {{ article.category.title }} </em></div>
         <div class="content">
             <img src=" {{ article.image }}" alt="">
                 {{ article.content | raw }}
             </div>
     </article>
 
-    <section id="commentaires">
+<hr>
 
+
+    <section id="commentaires">
+<h2> {{ article.comments | length }}  commentaires : </h2>
 {% for comment in article.comments %}
         <div class="comment">
            <div class="row">
                 <div class="col-3">
-                     {{ comment.author }}  (<small>{{ comment.createdAt | date('d/m/Y') }}</small>)
+                     {{ comment.author }}  (<small>{{ comment.createdAt | date('d/m/Y à H:i') }}</small>)
                 </div>
                 <div class="col">
                     {{ comment.content | raw }}
@@ -26,6 +29,21 @@
         </div>
  {% endfor %}
 
-    </section>
+ <br>
+{% if app.user %}
+{{ form_start(commentForm)}}
+{{ form_row(commentForm.author,  { 'label' : 'Nom d\'utilisateur' ,'attr' : {'placeholder' : 'Votre pseudo'}} )}}
+{{ form_row(commentForm.content,  { 'label' : 'Commentaire' ,'attr' : {'placeholder' : 'Votre commentaire'}} )}}
+<button type="submit" class="btn btn-success">Commenter !</button>
 
+{{ form_end(commentForm) }}
+
+{% else %}
+
+<h5> Veuillez vous enregistrer pour écrire un commentaire sur cet article </h5>
+<a href="{{ path('security_login')}}" class="btn btn-primary">Se Connecter</a>
+{% endif %}
+
+    </section>
+<br>
 {% endblock %}
